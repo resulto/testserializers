@@ -28,3 +28,32 @@ class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = ("name", "code", "author", "tracks")
+
+
+class AlbumLikeChoiceSerializer(serializers.Serializer):
+    """Note: this is not a ModelSerializer. We accept any object that has a
+    name, code, and pk :-)
+
+    No need for Meta because this is not a ModelSerializer
+    """
+
+    label = serializers.SerializerMethodField()
+    code = serializers.SerializerMethodField()
+    internal_id = serializers.SerializerMethodField()
+
+    def get_label(self, obj):
+        return obj.name
+
+    def get_code(self, obj):
+        return obj.code
+
+    def get_internal_id(self, obj):
+        return obj.pk
+
+
+class SimpleAjaxFormSerializer(serializers.Serializer):
+
+    your_website = serializers.URLField(required=False)
+    age = serializers.IntegerField()
+    interest = serializers.ChoiceField(
+        choices=(("key1", "Interest 1"), ("key2", "Interest 2")))
