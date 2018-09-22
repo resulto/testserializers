@@ -1,0 +1,17 @@
+*.egg-info
+*.pyc
+.cache/
+.coverage
+/node_modules
+/bower_components
+/static
+/static-built
+/build
+/dist
+.python-version
+package-lock.json
+*.mo
+media/
+images/
+.pytest_cache/
+db.sqlite3

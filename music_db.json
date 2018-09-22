@@ -1,0 +1,79 @@
+[
+{
+  "model": "music.author",
+  "pk": 1,
+  "fields": {
+    "name": "Bob"
+  }
+},
+{
+  "model": "music.author",
+  "pk": 2,
+  "fields": {
+    "name": "Alice"
+  }
+},
+{
+  "model": "music.album",
+  "pk": 1,
+  "fields": {
+    "name": "Album1",
+    "author": 1,
+    "code": "album1"
+  }
+},
+{
+  "model": "music.album",
+  "pk": 2,
+  "fields": {
+    "name": "Album2",
+    "author": 1,
+    "code": "album2"
+  }
+},
+{
+  "model": "music.album",
+  "pk": 3,
+  "fields": {
+    "name": "Album3",
+    "author": 2,
+    "code": "album3"
+  }
+},
+{
+  "model": "music.track",
+  "pk": 1,
+  "fields": {
+    "song": "track1",
+    "album": 1,
+    "index": 1
+  }
+},
+{
+  "model": "music.track",
+  "pk": 2,
+  "fields": {
+    "song": "track2",
+    "album": 1,
+    "index": 2
+  }
+},
+{
+  "model": "music.track",
+  "pk": 3,
+  "fields": {
+    "song": "track1",
+    "album": 2,
+    "index": 1
+  }
+},
+{
+  "model": "music.track",
+  "pk": 4,
+  "fields": {
+    "song": "track2",
+    "album": 2,
+    "index": 2
+  }
+}
+]
