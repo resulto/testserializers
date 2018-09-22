@@ -106,10 +106,6 @@ invalid_data2 = {
     "your_website": "hello"
 }
 
-serializer = SimpleAjaxFormSerializer(valid_data1)
-serializer.is_valid()
-# True
-
 serializer = SimpleAjaxFormSerializer(data=valid_data1)
 serializer.is_valid()
 # True
