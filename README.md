@@ -97,6 +97,13 @@ valid_data2 = {
     "extra": "extra"
 }
 
+valid_data3 = {
+    "age": 9,
+    "interest": "key1",
+    "extra": "extra",
+    "answer": "bob"
+}
+
 invalid_data1 = {
 }
 
@@ -104,6 +111,13 @@ invalid_data2 = {
     "age": "nine",
     "interest": "key3",
     "your_website": "hello"
+}
+
+invalid_data3 = {
+    "age": 9,
+    "interest": "key1",
+    "extra": "extra",
+    "answer": "test"
 }
 
 serializer = SimpleAjaxFormSerializer(data=valid_data1)
@@ -119,6 +133,10 @@ serializer = SimpleAjaxFormSerializer(data=valid_data2)
 serializer.is_valid()
 # True
 
+serializer = SimpleAjaxFormSerializer(data=valid_data3)
+serializer.is_valid()
+# True
+
 serializer = SimpleAjaxFormSerializer(data=invalid_data1)
 serializer.is_valid()
 # False
@@ -130,4 +148,72 @@ serializer.is_valid()
 # False
 serializer.validated_data
 # {}
+
+serializer = SimpleAjaxFormSerializer(data=invalid_data3)
+serializer.is_valid()
+# False
+serializer.validated_data
+# {}
+serializer.errors
+# {'answer': [ErrorDetail(string='Invalid input.', code='invalid')]}
+
+```
+
+
+## Validating complex JSON input
+
+```python
+valid_data4 = {
+    "age": 9,
+    "interest": "key1",
+    "extra": "extra",
+    "best_url": {
+        "site_name": "test",
+        "url": "http://www.example.com"
+    },
+    "urls": [
+        {
+            "site_name": "test",
+            "url": "http://www.example.com"
+        }
+    ]
+}
+
+serializer = SimpleAjaxFormSerializer(data=valid_data4)
+serializer.is_valid()
+# True
+serializer.validated_data
+# OrderedDict([('age', 9),
+#              ('interest', 'key1'),
+#              ('best_url',
+#               OrderedDict([('site_name', 'test'),
+#                            ('url', 'http://www.example.com')])),
+#              ('urls',
+#               [OrderedDict([('site_name', 'test'),
+#                             ('url', 'http://www.example.com')])])])
+
+invalid_data4 = {
+    "age": 9,
+    "interest": "key1",
+    "extra": "extra",
+    "best_url": {
+        "site_name": "test",
+        "url": "test3"
+    },
+    "urls": [
+        {
+            "site_name": "test",
+            "url": "test4"
+        }
+    ]
+}
+
+
+serializer = SimpleAjaxFormSerializer(data=invalid_data4)
+serializer.is_valid()
+# False
+serializer.validated_data
+# {}
+serializer.errors
+# {'best_url': {'url': [ErrorDetail(string='Enter a valid URL.', code='invalid')]}, 'urls': [{'url': [ErrorDetail(string='Enter a valid URL.', code='invalid')]}]}
 ```

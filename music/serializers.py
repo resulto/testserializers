@@ -51,9 +51,30 @@ class AlbumLikeChoiceSerializer(serializers.Serializer):
         return obj.pk
 
 
+class UrlInputSerializer(serializers.Serializer):
+    site_name = serializers.CharField()
+    url = serializers.URLField()
+
+
 class SimpleAjaxFormSerializer(serializers.Serializer):
 
     your_website = serializers.URLField(required=False)
     age = serializers.IntegerField()
     interest = serializers.ChoiceField(
         choices=(("key1", "Interest 1"), ("key2", "Interest 2")))
+    # Because of https://github.com/encode/django-rest-framework/issues/3383
+    # there is currently no way to set choices dynamically. You should validate
+    # a choice with a validate method instead.
+    answer = serializers.CharField(required=False)
+    best_url = UrlInputSerializer(required=False)
+    urls = UrlInputSerializer(many=True, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Can run arbitrary code such as a query set!
+        self.answer_choices = ["bob", "alice", "carl"]
+
+    def validate_answer(self, value):
+        if value not in self.answer_choices:
+            raise serializers.ValidationError
+        return value
